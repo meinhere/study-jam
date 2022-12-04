@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <p>Hello</p>
+
+    <form method="post" class="form">
+      <input type="text" name="nama" class="nama" placeholder="Masukkan nama" />
+      <input type="text" name="hobi" class="hobi" placeholder="Masukkan hobi" />
+      <input type="submit" class="submit" />
+    </form>
+
+    <script>
+      async function getData() {
+        const res = await fetch("http://127.0.0.1:5000");
+        return res.json();
+      }
+      getData().then((data) => console.log(data));
+
+      const form = document.querySelector(".form");
+      form.addEventListener("submit", postData);
+
+      function postData(e) {
+        e.preventDefault();
+        const nama = document.querySelector(".nama").value;
+        const hobi = document.querySelector(".hobi").value;
+
+        fetch("http://127.0.0.1:5000/tambahData", {
+          method: "POST",
+          headers: {
+            "Content-Type": "Application/json",
+          },
+          body: JSON.stringify({
+            nama,
+            hobi,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      }
+    </script>
+  </body>
+</html>
